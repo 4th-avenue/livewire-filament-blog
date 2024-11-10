@@ -1,6 +1,8 @@
 <div x-data="{
     query: '{{ request('search', '') }}'
-}" id="search-box">
+}" x-on:keyup.enter.window="$dispatch('search',{
+    search : query
+})" id="search-box">
     <div>
         <h3 class="text-lg font-semibold text-gray-900 mb-3">Search</h3>
         <div class="w-52 flex rounded-2xl bg-gray-100 py-2 px-3 mb-3 items-center">
@@ -10,7 +12,6 @@
                 </svg>
             </span>
             <input x-model="query"
-                @keydown.enter="$dispatch('search', { search: query })"
                 class="w-40 ml-1 bg-transparent focus:outline-none focus:border-none focus:ring-0 outline-none border-none text-xs text-gray-800 placeholder:text-gray-400"
                 type="text" placeholder="Search...">
         </div>
