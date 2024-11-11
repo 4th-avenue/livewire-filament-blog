@@ -2,33 +2,39 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CommentResource\Pages;
-use App\Filament\Resources\CommentResource\RelationManagers;
-use App\Models\Comment;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Comment;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\CommentResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\CommentResource\RelationManagers;
 
 class CommentResource extends Resource
 {
     protected static ?string $model = Comment::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-bottom-center';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('post_id')
-                    ->required()
-                    ->numeric(),
+                Select::make('user_id')
+                    ->relationship('user', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
+                Select::make('post_id')
+                    ->relationship('post', 'title')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
                 Forms\Components\TextInput::make('comment')
                     ->required()
                     ->maxLength(255),
@@ -39,21 +45,18 @@ class CommentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('post_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('comment')
+                TextColumn::make('id'),
+                TextColumn::make('user.name')
+                    ->numeric(),
+                TextColumn::make('post.title')
+                    ->numeric(),
+                TextColumn::make('comment')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
-                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
-                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
