@@ -22,7 +22,7 @@
         <div
             class="article-actions-bar my-6 flex text-sm items-center justify-between border-t border-b border-gray-100 py-4 px-2">
             <div class="flex items-center">
-                <livewire:like-button :key="'likebutton-'.$post->id" :$post />
+                <livewire:like-button :key="'like-'.$post->id" :$post />
             </div>
             <div>
                 <div class="flex items-center">
