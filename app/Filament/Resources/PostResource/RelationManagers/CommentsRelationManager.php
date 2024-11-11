@@ -21,6 +21,11 @@ class CommentsRelationManager extends RelationManager
                 Forms\Components\TextInput::make('comment')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
             ]);
     }
 
@@ -30,6 +35,7 @@ class CommentsRelationManager extends RelationManager
             ->recordTitleAttribute('comment')
             ->columns([
                 Tables\Columns\TextColumn::make('comment'),
+                Tables\Columns\TextColumn::make('user.name'),
             ])
             ->filters([
                 //
@@ -42,9 +48,7 @@ class CommentsRelationManager extends RelationManager
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                //
             ]);
     }
 }
