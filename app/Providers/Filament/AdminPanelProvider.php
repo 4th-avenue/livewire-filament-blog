@@ -18,6 +18,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use App\Filament\Resources\UserResource\Widgets\UserStatsWidget;
+use App\Filament\Resources\PostResource\Widgets\PostsPerMonthChart;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -39,6 +40,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 UserStatsWidget::class,
+                PostsPerMonthChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,

@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\PostResource\Pages;
 
-use App\Filament\Resources\PostResource;
 use Filament\Actions;
+use App\Filament\Resources\PostResource;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\PostResource\Widgets\PostsPerMonthChart;
 
 class ListPosts extends ListRecords
 {
@@ -14,6 +15,13 @@ class ListPosts extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+        ];
+    }
+
+    protected function getFooterWidgets(): array
+    {
+        return [
+            PostsPerMonthChart::class,
         ];
     }
 }
