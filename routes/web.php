@@ -10,6 +10,11 @@ Route::get('/blog', [PostController::class, 'index'])->name('posts.index');
 
 Route::get('/blog/{post:slug}', [PostController::class, 'show'])->name('posts.show');
 
+Route::get('/language/{locale}', function ($locale) {
+    session()->put('locale', $locale);
+    return redirect()->back();
+})->name('locale');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
